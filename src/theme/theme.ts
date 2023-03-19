@@ -348,7 +348,7 @@ const PureLightTheme = createTheme({
       styleOverrides: {
         root: {
           textTransform: "capitalize",
-          color: "rgba(34, 51, 84, 0.7) !important",
+          color: "#000",
         },
       },
     },
@@ -369,7 +369,7 @@ const PureLightTheme = createTheme({
     MuiFormControl: {
       styleOverrides: {
         root: {
-          minHeight: 90,
+          minHeight: 70,
           paddingBottom: "0 !important",
         },
       },

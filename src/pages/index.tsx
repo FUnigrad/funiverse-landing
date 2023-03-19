@@ -3,8 +3,9 @@ import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Head from "next/head";
+import Button from "@mui/material/Button";
 // import styles from 'assets/styles/Home.module.scss'
-
+import NextLink from "next/link";
 export default function Home() {
   const theme = useTheme();
   const trigger = useScrollTrigger();
@@ -54,6 +55,15 @@ export default function Home() {
             securely combines chat, video, groups and your intranet with the
             work tools you already use. Think Facebook, but for your company.
           </Typography>
+          <Button
+            sx={{ mt: 2 }}
+            variant="contained"
+            color="primary"
+            LinkComponent={NextLink}
+            href="/verify"
+          >
+            Get started
+          </Button>
         </Box>
       </Box>
       {/* </Box> */}

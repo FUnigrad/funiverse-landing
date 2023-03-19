@@ -15,7 +15,7 @@ const VerifySchema = z.object({
   email: z.string().email(),
 });
 type VerifyFormInputs = z.infer<typeof VerifySchema>;
-function VerifyPage() {
+function ResetPasswordPage() {
   const router = useRouter();
   const { verifiedEmail, setVerifiedEmail } = useAuthContext();
   const {
@@ -29,13 +29,16 @@ function VerifyPage() {
   } = useForm<VerifyFormInputs>({
     mode: "all",
     resolver: zodResolver(VerifySchema),
+    defaultValues: {
+      email: verifiedEmail,
+    },
   });
   function handleVerifyEmail() {
     //TODO: call API verify email
   }
   function onSubmit(data: VerifyFormInputs) {
-    setVerifiedEmail(data.email);
-    router.push({ pathname: "/login", query: { identifier: data.email } });
+    // setVerifiedEmail(data.email);
+    // router.push('/login');
   }
   return (
     <Box
@@ -49,15 +52,32 @@ function VerifyPage() {
       }}
     >
       <Box>
-        <Typography
-          variant="subtitle1"
-          color="initial"
-          fontSize={45}
-          fontWeight="100"
-          textAlign={"center"}
+        <Box
+          sx={{
+            mb: 2,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-          FUniverse
-        </Typography>
+          <Typography
+            variant="subtitle1"
+            color="initial"
+            fontSize={45}
+            fontWeight="100"
+          >
+            Reset password
+          </Typography>
+          <Typography
+            variant="body1"
+            color="initial"
+            sx={{ transform: "translateY(-12px)", whiteSpace: "nowrap" }}
+          >
+            Please add or verify your email address or Workplace username to
+            reset your password.
+          </Typography>
+        </Box>
         <Box
           onSubmit={handleSubmit(onSubmit)}
           component="form"
@@ -66,24 +86,20 @@ function VerifyPage() {
           noValidate
           sx={{
             "& .MuiTextField-root": { m: 1, width: "100%" },
+            width: 350,
+            m: "0 auto",
           }}
         >
-          <InputLabel
-            htmlFor="email"
-            sx={{ color: "black", fontWeight: 600, fontSize: "18px" }}
-          >
-            Enter your email to start using FUniverse
-          </InputLabel>
           <TextField
+            label="Email or username"
             required
             error={Boolean(errors.email)}
             helperText={errors.email?.message}
             fullWidth
-            autoFocus
             {...register("email")}
           />
           <Button variant="contained" color="primary" fullWidth type="submit">
-            Continue
+            Reset password
           </Button>
         </Box>
       </Box>
@@ -91,4 +107,4 @@ function VerifyPage() {
   );
 }
 
-export default VerifyPage;
+export default ResetPasswordPage;
