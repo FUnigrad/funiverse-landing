@@ -11,6 +11,10 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthContext } from "contexts";
+import { QueryKey, authApis } from "apis";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { VerifyEmailBody, VerifyEmailResponse } from "@types";
+import { FormHelperText } from "@mui/material";
 const VerifySchema = z.object({
   email: z.string().email(),
 });
@@ -30,12 +34,26 @@ function VerifyPage() {
     mode: "all",
     resolver: zodResolver(VerifySchema),
   });
+  const queryClient = useQueryClient();
+  const {
+    mutate: verifyMutate,
+    error,
+    isLoading,
+  } = useMutation<VerifyEmailResponse, string, VerifyEmailBody, unknown>({
+    mutationFn: (body) => authApis.verifyEmail(body),
+  });
+
   function handleVerifyEmail() {
     //TODO: call API verify email
   }
   function onSubmit(data: VerifyFormInputs) {
-    setVerifiedEmail(data.email);
-    router.push({ pathname: "/login", query: { identifier: data.email } });
+    const body = { email: data.email };
+    verifyMutate(body, {
+      onSuccess: (response) => {
+        setVerifiedEmail(data.email);
+        // router.push({ pathname: "/login", query: { identifier: data.email } });
+      },
+    });
   }
   return (
     <Box
@@ -76,12 +94,13 @@ function VerifyPage() {
           </InputLabel>
           <TextField
             required
-            error={Boolean(errors.email)}
-            helperText={errors.email?.message}
+            error={Boolean(errors.email) || Boolean(error)}
+            helperText={errors.email?.message || error}
             fullWidth
             autoFocus
             {...register("email")}
           />
+          {/* <FormHelperText sx={{ color: 'red' }}>{error}</FormHelperText> */}
           <Button variant="contained" color="primary" fullWidth type="submit">
             Continue
           </Button>

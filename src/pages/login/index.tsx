@@ -19,22 +19,23 @@ import { useAuthContext } from "contexts";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import NextLink from "next/link";
+import { useIdentifier } from "hooks";
+import { useMutation } from "@tanstack/react-query";
+import { authApis } from "apis";
+import { LoginBody, LoginResponse } from "@types";
+import LoadingButton from "@mui/lab/LoadingButton";
+import SaveIcon from "@mui/icons-material/Save";
 const LoginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1),
 });
 type LoginFormInputs = z.infer<typeof LoginSchema>;
 function LoginPage() {
-  const router = useRouter();
+  // const router = useRouter();
   const { verifiedEmail, setVerifiedEmail } = useAuthContext();
-  console.log("🚀 ~ verifiedEmail:", verifiedEmail);
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  // const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   event.preventDefault();
-  // };
 
   const {
     register,
@@ -53,28 +54,40 @@ function LoginPage() {
     },
   });
 
-  useEffect(() => {
-    if (router.isReady) {
-      const query = router.query;
-      const identifier = query.identifier as string;
-      const isValidVerifiedEmail = z
-        .string()
-        .email()
-        .safeParse(identifier).success;
-      if (!identifier || !isValidVerifiedEmail) {
-        router.push("/verify");
-        return;
-      }
-      setVerifiedEmail(identifier);
-      setValue("email", identifier);
-    }
+  useIdentifier({ setValue });
 
-    return () => {};
-  }, [router, setValue, setVerifiedEmail]);
+  // useEffect(() => {
+  //   if (router.isReady) {
+  //     const query = router.query;
+  //     const identifier = query.identifier as string;
+  //     const isValidVerifiedEmail = z
+  //       .string()
+  //       .email()
+  //       .safeParse(identifier).success;
+  //     if (!identifier || !isValidVerifiedEmail) {
+  //       router.push("/verify");
+  //       return;
+  //     }
+  //     setVerifiedEmail(identifier);
+  //     setValue("email", identifier);
+  //   }
+
+  //   return () => {};
+  // }, [router, setValue, setVerifiedEmail]);
+
+  const {
+    mutate: loginMutate,
+    error,
+    isLoading,
+  } = useMutation<LoginResponse, unknown, LoginBody>({
+    mutationFn: (body) => authApis.login(body),
+    onSuccess: (response) => {
+      //TODO: handle accessToken - redirect to workspaceDomain
+    },
+  });
 
   function onSubmit(data: LoginFormInputs) {
-    setVerifiedEmail(data.email);
-    router.push("/login");
+    loginMutate(data);
   }
   return (
     <Box
@@ -145,7 +158,6 @@ function LoginPage() {
                   <IconButton
                     aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
-                    // onMouseDown={handleMouseDownPassword}
                     edge="end"
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -166,9 +178,17 @@ function LoginPage() {
               Forgot your password?
             </Link>
           </Box>
-          <Button variant="contained" color="primary" fullWidth type="submit">
+          <LoadingButton
+            variant="contained"
+            color="primary"
+            fullWidth
+            type="submit"
+            loading={isLoading}
+            loadingPosition="start"
+            startIcon={null}
+          >
             Continue
-          </Button>
+          </LoadingButton>
         </Box>
       </Box>
     </Box>
