@@ -22,9 +22,10 @@ import NextLink from "next/link";
 import { useIdentifier } from "hooks";
 import { useMutation } from "@tanstack/react-query";
 import { authApis } from "apis";
-import { LoginBody, LoginResponse } from "@types";
+import { LoginBody, LoginResponse, UserRoles } from "@types";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
+import { __DEV__ } from "utils";
 const LoginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1),
@@ -79,10 +80,23 @@ function LoginPage() {
     mutate: loginMutate,
     error,
     isLoading,
-  } = useMutation<LoginResponse, unknown, LoginBody>({
+  } = useMutation<LoginResponse, string, LoginBody>({
     mutationFn: (body) => authApis.login(body),
     onSuccess: (response) => {
-      //TODO: handle accessToken - redirect to workspaceDomain
+      if (__DEV__) {
+        window.location.href = "http://localhost:3000/";
+        return;
+      }
+      let redirectURL = null;
+      switch (response.user.role) {
+        case UserRoles.SystemAdmin:
+          redirectURL = process.env.NEXT_PUBLIC_FU_SA_URL;
+          break;
+        default:
+          redirectURL = `http://${response.workspaceDomain}`;
+          break;
+      }
+      window.location.href = redirectURL;
     },
   });
 
@@ -170,10 +184,10 @@ function LoginPage() {
               {...register("password")}
             />
             <FormHelperText sx={{ color: "red" }}>
-              {errors.password?.message}
+              {errors.password?.message || error}
             </FormHelperText>
           </FormControl>
-          <Box sx={{ mb: 3 }}>
+          <Box sx={{ mt: 2, mb: 3 }}>
             <Link href="/reset-password" fontSize={14} component={NextLink}>
               Forgot your password?
             </Link>

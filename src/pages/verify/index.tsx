@@ -14,7 +14,8 @@ import { useAuthContext } from "contexts";
 import { QueryKey, authApis } from "apis";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { VerifyEmailBody, VerifyEmailResponse } from "@types";
-import { FormHelperText } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+
 const VerifySchema = z.object({
   email: z.string().email(),
 });
@@ -51,7 +52,7 @@ function VerifyPage() {
     verifyMutate(body, {
       onSuccess: (response) => {
         setVerifiedEmail(data.email);
-        // router.push({ pathname: "/login", query: { identifier: data.email } });
+        router.push({ pathname: "/login", query: { identifier: data.email } });
       },
     });
   }
@@ -80,7 +81,7 @@ function VerifyPage() {
           onSubmit={handleSubmit(onSubmit)}
           component="form"
           id="entityForm"
-          autoComplete="off"
+          // autoComplete="off"
           noValidate
           sx={{
             "& .MuiTextField-root": { m: 1, width: "100%" },
@@ -101,9 +102,17 @@ function VerifyPage() {
             {...register("email")}
           />
           {/* <FormHelperText sx={{ color: 'red' }}>{error}</FormHelperText> */}
-          <Button variant="contained" color="primary" fullWidth type="submit">
+          <LoadingButton
+            variant="contained"
+            color="primary"
+            fullWidth
+            type="submit"
+            loading={isLoading}
+            loadingPosition="start"
+            startIcon={null}
+          >
             Continue
-          </Button>
+          </LoadingButton>
         </Box>
       </Box>
     </Box>

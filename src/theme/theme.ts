@@ -369,7 +369,7 @@ const PureLightTheme = createTheme({
     MuiFormControl: {
       styleOverrides: {
         root: {
-          minHeight: 70,
+          minHeight: 80,
           paddingBottom: "0 !important",
         },
       },
@@ -692,6 +692,15 @@ const PureLightTheme = createTheme({
         },
       },
     },
+    MuiLoadingButton: {
+      styleOverrides: {
+        root: {
+          "&.MuiLoadingButton-loading": {
+            backgroundColor: "rgba(85, 105, 255, 0.5)",
+          },
+        },
+      },
+    },
     MuiListItemText: {
       styleOverrides: {
         root: {
@@ -795,6 +804,16 @@ const PureLightTheme = createTheme({
             background: colors.alpha.black[100],
             color: colors.alpha.white[100],
           },
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          // '& .MuiInputBase-input': {
+          //   padding: '12px 12px',
+          //   height: 16,
+          // },
         },
       },
     },

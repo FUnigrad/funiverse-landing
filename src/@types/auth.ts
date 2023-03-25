@@ -1,4 +1,4 @@
-import { UserRole } from "./user";
+import { UserRoles } from "./user";
 
 export interface VerifyEmailBody {
   email: string;
@@ -19,8 +19,8 @@ export interface LoginBody {
 
 export interface LoginResponse {
   accessToken: string;
-  user: { eduMail: string; role: UserRole };
-  workspaceDomain: string;
+  user: { eduMail: string; role: UserRoles };
+  workspaceDomain?: string;
 }
 
 export interface LogoutBody {

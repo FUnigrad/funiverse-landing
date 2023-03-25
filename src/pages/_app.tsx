@@ -29,7 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <style jsx global>{`
         html {
           font-family: ${roboto.style.fontFamily};
-          background-image: url("https://img.freepik.com/premium-photo/top-view-background-image-minimal-white-workplace-with-laptop-notebook-copy-space_236854-35018.jpg?w=1060");
+          background-image: url("https://images.unsplash.com/photo-1518655048521-f130df041f66?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80");
           background-position: center;
           background-size: cover;
           background-repeat: no-repeat;

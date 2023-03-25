@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import qs from "query-string";
 // declare global {
 //   module 'axios' {
@@ -12,20 +12,10 @@ const axiosClient = axios.create({
   },
   baseURL: "http://funiverse.world:30001",
   paramsSerializer: { serialize: (params) => qs.stringify(params) },
-  // baseURL: 'http://dev.funiverse.world/api',
   proxy: {
     host: "http://localhost",
     port: 3001,
   },
-  // proxy: {
-  //   // protocol: 'http',
-  //   host: 'http://localhost',
-  //   port: 3001,
-  //   // auth: {
-  //   //   username: 'mikeymike',
-  //   //   password: 'rapunz3l'
-  //   // }
-  // },
 });
 axiosClient.interceptors.request.use(
   async (config) => {
@@ -36,13 +26,12 @@ axiosClient.interceptors.request.use(
 );
 axiosClient.interceptors.response.use(
   (response) => {
-    if (response.headers.location) {
-      // return axiosClient.get(response.headers.location);
-    }
     return response?.data;
   },
-  (error) => {
-    return Promise.reject(error);
+  (error: AxiosError<{ message?: string }>) => {
+    console.log("🚀 ~ error:", error);
+    const errorMsg = error.response?.data?.message ?? error.message;
+    return Promise.reject(errorMsg);
   }
 );
 

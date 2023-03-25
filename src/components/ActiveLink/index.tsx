@@ -17,6 +17,7 @@ const ActiveLink = ({
 }: PropsWithChildren<ActiveLinkProps>) => {
   const { asPath, isReady } = useRouter();
   const [computedClassName, setComputedClassName] = useState(className);
+  console.log("🚀 ~ computedClassName:", computedClassName);
 
   useEffect(() => {
     // Check if the router fields are updated client-side
