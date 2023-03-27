@@ -363,6 +363,7 @@ const PureLightTheme = createTheme({
       styleOverrides: {
         root: {
           textTransform: "none",
+          wordBreak: "break-word",
         },
       },
     },

@@ -8,9 +8,9 @@ import axiosClient from "./axiosClient";
 
 export const authApis = {
   verifyEmail: (body: VerifyEmailBody) =>
-    axiosClient.post<VerifyEmailResponse>("/oauth/verify-mail", body),
+    axiosClient.post<VerifyEmailResponse>("/auth/verify-mail", body),
   login: (body: LoginBody) =>
-    axiosClient.post<LoginResponse>("/api/v1/auth/login"),
+    axiosClient.post<LoginResponse>("/auth/login", body),
   // logout: (body: ) => axiosClient.post('/api/v1/auth/logout'),
-  refreshToken: () => axiosClient.post("/oauth/refresh-token"),
+  refreshToken: () => axiosClient.post("/auth/refresh-token"),
 };

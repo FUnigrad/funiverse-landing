@@ -33,6 +33,8 @@ export default function App({ Component, pageProps }: AppProps) {
           background-position: center;
           background-size: cover;
           background-repeat: no-repeat;
+          height: 100vh;
+          width: 100vw;
         }
       `}</style>
       <QueryClientProvider client={queryClient}>

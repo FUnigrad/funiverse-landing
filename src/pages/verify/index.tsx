@@ -5,17 +5,19 @@ import InputLabel from "@mui/material/InputLabel";
 import Input from "@mui/material/Input";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import MuiLink from "@mui/material/Link";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthContext } from "contexts";
-import { QueryKey, authApis } from "apis";
+import { QueryKey, useVerifyEmailMutation } from "queries";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { VerifyEmailBody, VerifyEmailResponse } from "@types";
 import LoadingButton from "@mui/lab/LoadingButton";
-
+import { authApis } from "apis";
+import { FcGoogle } from "react-icons/fc";
 const VerifySchema = z.object({
   email: z.string().email(),
 });
@@ -35,18 +37,8 @@ function VerifyPage() {
     mode: "all",
     resolver: zodResolver(VerifySchema),
   });
-  const queryClient = useQueryClient();
-  const {
-    mutate: verifyMutate,
-    error,
-    isLoading,
-  } = useMutation<VerifyEmailResponse, string, VerifyEmailBody, unknown>({
-    mutationFn: (body) => authApis.verifyEmail(body),
-  });
+  const { mutate: verifyMutate, error, isLoading } = useVerifyEmailMutation();
 
-  function handleVerifyEmail() {
-    //TODO: call API verify email
-  }
   function onSubmit(data: VerifyFormInputs) {
     const body = { email: data.email };
     verifyMutate(body, {
@@ -113,6 +105,26 @@ function VerifyPage() {
           >
             Continue
           </LoadingButton>
+          <Button
+            startIcon={<FcGoogle />}
+            variant="contained"
+            color="primary"
+            fullWidth
+            type="button"
+            sx={{
+              mt: 2,
+              backgroundColor: "#fff",
+              color: "#000",
+              height: 42,
+              "&:hover": {
+                backgroundColor: "rgba(255,255,255, 0.8)",
+              },
+            }}
+            LinkComponent={MuiLink}
+            href={process.env.NEXT_PUBLIC_GOOGLE_SIGNIN}
+          >
+            Sign in with Google
+          </Button>
         </Box>
       </Box>
     </Box>

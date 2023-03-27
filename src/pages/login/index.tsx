@@ -22,85 +22,49 @@ import NextLink from "next/link";
 import { useIdentifier } from "hooks";
 import { useMutation } from "@tanstack/react-query";
 import { authApis } from "apis";
-import { LoginBody, LoginResponse, UserRoles } from "@types";
+import {
+  LoginBody,
+  LoginResponse,
+  UserRoles,
+  VerifyEmailBody,
+  VerifyEmailResponse,
+} from "@types";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
 import { __DEV__ } from "utils";
+import { useLoginMutation, useVerifyEmailMutation } from "queries";
 const LoginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1),
 });
 type LoginFormInputs = z.infer<typeof LoginSchema>;
 function LoginPage() {
-  // const router = useRouter();
-  const { verifiedEmail, setVerifiedEmail } = useAuthContext();
   const [showPassword, setShowPassword] = React.useState(false);
-
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const {
     register,
     handleSubmit,
-    control,
-    watch,
-    unregister,
-    clearErrors,
     setValue,
     formState: { errors },
   } = useForm<LoginFormInputs>({
     mode: "all",
     resolver: zodResolver(LoginSchema),
-    defaultValues: {
-      email: verifiedEmail,
-    },
   });
 
-  useIdentifier({ setValue });
+  const verifiedEmail = useIdentifier({ setValue });
 
-  // useEffect(() => {
-  //   if (router.isReady) {
-  //     const query = router.query;
-  //     const identifier = query.identifier as string;
-  //     const isValidVerifiedEmail = z
-  //       .string()
-  //       .email()
-  //       .safeParse(identifier).success;
-  //     if (!identifier || !isValidVerifiedEmail) {
-  //       router.push("/verify");
-  //       return;
-  //     }
-  //     setVerifiedEmail(identifier);
-  //     setValue("email", identifier);
-  //   }
+  const verifyMutation = useVerifyEmailMutation();
 
-  //   return () => {};
-  // }, [router, setValue, setVerifiedEmail]);
+  useEffect(() => {
+    if (verifiedEmail) verifyMutation.mutate({ email: verifiedEmail });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [verifiedEmail]);
 
-  const {
-    mutate: loginMutate,
-    error,
-    isLoading,
-  } = useMutation<LoginResponse, string, LoginBody>({
-    mutationFn: (body) => authApis.login(body),
-    onSuccess: (response) => {
-      if (__DEV__) {
-        window.location.href = "http://localhost:3000/";
-        return;
-      }
-      let redirectURL = null;
-      switch (response.user.role) {
-        case UserRoles.SystemAdmin:
-          redirectURL = process.env.NEXT_PUBLIC_FU_SA_URL;
-          break;
-        default:
-          redirectURL = `http://${response.workspaceDomain}`;
-          break;
-      }
-      window.location.href = redirectURL;
-    },
-  });
+  const { mutate: loginMutate, error, isLoading } = useLoginMutation();
 
   function onSubmit(data: LoginFormInputs) {
+    console.log("🚀 ~ data:", data);
     loginMutate(data);
   }
   return (
