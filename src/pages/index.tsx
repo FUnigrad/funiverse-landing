@@ -6,6 +6,7 @@ import Head from "next/head";
 import Button from "@mui/material/Button";
 // import styles from 'assets/styles/Home.module.scss'
 import NextLink from "next/link";
+import { useEffect } from "react";
 export default function Home() {
   const theme = useTheme();
   const trigger = useScrollTrigger();

@@ -18,9 +18,10 @@ export interface LoginBody {
 }
 
 export interface LoginResponse {
-  accessToken: string;
-  user: { eduMail: string; role: UserRoles };
   workspaceDomain?: string;
+  user: { eduMail: string; role: UserRoles };
+  accessToken: string;
+  refreshToken: string;
 }
 
 export interface LogoutBody {

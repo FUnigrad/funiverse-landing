@@ -6,6 +6,7 @@ import "assets/styles/globals.scss";
 import { AuthProvider } from "contexts";
 import { Layout } from "layout";
 import type { AppProps } from "next/app";
+import { CookiesProvider } from "react-cookie";
 import { theme } from "theme";
 
 const roboto = Roboto({
@@ -40,10 +41,12 @@ export default function App({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
           <AuthProvider>
-            <Layout>
-              <Component {...pageProps} />
-              <ReactQueryDevtools initialIsOpen={false} />
-            </Layout>
+            <CookiesProvider>
+              <Layout>
+                <Component {...pageProps} />
+                <ReactQueryDevtools initialIsOpen={false} />
+              </Layout>
+            </CookiesProvider>
           </AuthProvider>
         </ThemeProvider>
       </QueryClientProvider>
