@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -11,34 +11,38 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthContext } from "contexts";
-const VerifySchema = z.object({
+import { authApis } from "apis";
+import { useVerifyEmailMutation } from "queries";
+const ResetPasswordSchema = z.object({
   email: z.string().email(),
 });
-type VerifyFormInputs = z.infer<typeof VerifySchema>;
+type ResetPasswordFormInputs = z.infer<typeof ResetPasswordSchema>;
 function ResetPasswordPage() {
   const router = useRouter();
   const { verifiedEmail, setVerifiedEmail } = useAuthContext();
   const {
     register,
     handleSubmit,
-    control,
-    watch,
-    unregister,
-    clearErrors,
+    setError,
     formState: { errors },
-  } = useForm<VerifyFormInputs>({
+  } = useForm<ResetPasswordFormInputs>({
     mode: "all",
-    resolver: zodResolver(VerifySchema),
+    resolver: zodResolver(ResetPasswordSchema),
     defaultValues: {
       email: verifiedEmail,
     },
   });
-  function handleVerifyEmail() {
-    //TODO: call API verify email
-  }
-  function onSubmit(data: VerifyFormInputs) {
-    // setVerifiedEmail(data.email);
-    // router.push('/login');
+
+  async function onSubmit(data: ResetPasswordFormInputs) {
+    try {
+      await authApis.getOTPInEmail(data);
+      router.push(`/recover/code?e=${data.email}`);
+    } catch (error) {
+      console.log("🚀 ~ error:", error);
+      if (error instanceof Error)
+        setError("email", { type: "custom", message: error.message });
+      else setError("email", { type: "custom", message: error as string });
+    }
   }
   return (
     <Box
@@ -74,8 +78,7 @@ function ResetPasswordPage() {
             color="initial"
             sx={{ transform: "translateY(-12px)", whiteSpace: "nowrap" }}
           >
-            Please add or verify your email address or Workplace username to
-            reset your password.
+            Please add or verify your email address.
           </Typography>
         </Box>
         <Box
@@ -91,7 +94,7 @@ function ResetPasswordPage() {
           }}
         >
           <TextField
-            label="Email or username"
+            label="Email"
             required
             error={Boolean(errors.email)}
             helperText={errors.email?.message}

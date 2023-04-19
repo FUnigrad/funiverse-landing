@@ -10,6 +10,8 @@
   "editor.renderWhitespace": "all",
   "editor.formatOnSave": true,
   "jest.autoRun": "off",
+  "prettier.printWidth": 100,
+  "prettier.singleQuote": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": false
   }

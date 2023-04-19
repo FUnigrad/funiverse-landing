@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   LoginBody,
   LoginResponse,
@@ -8,6 +8,7 @@ import {
 } from "@types";
 import { authApis } from "apis";
 import { useRouter } from "next/router";
+import { QueryKeys } from "queries";
 import { useCookies } from "react-cookie";
 import { __DEV__ } from "utils";
 export function useVerifyEmailMutation() {
@@ -65,4 +66,31 @@ export function useLoginMutation() {
     },
   });
   return loginMutation;
+}
+
+export function useOTPEmailQuery() {
+  return useQuery({
+    queryKey: [QueryKeys.OTP],
+    queryFn: () => authApis.getOTPInEmail,
+  });
+}
+
+export function useVerifyOTPMutation() {
+  return useMutation<unknown, string, { email: string; token: string }>({
+    mutationFn: (body) => authApis.verifyEmail(body),
+  });
+}
+
+export function useResetPasswordMutation() {
+  const router = useRouter();
+  return useMutation<
+    LoginResponse,
+    unknown,
+    { email: string; password: string },
+    unknown
+  >({
+    mutationFn: (body) => authApis.resetPassword(body),
+    onSuccess: (response) =>
+      router.push(`/login?identifier=${response.user.eduMail}`),
+  });
 }

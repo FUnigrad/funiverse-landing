@@ -152,7 +152,7 @@ function LoginPage() {
             </FormHelperText>
           </FormControl>
           <Box sx={{ mt: 2, mb: 3 }}>
-            <Link href="/reset-password" fontSize={14} component={NextLink}>
+            <Link href="/forgot-password" fontSize={14} component={NextLink}>
               Forgot your password?
             </Link>
           </Box>

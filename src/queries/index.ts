@@ -1,4 +1,5 @@
 export * from "./authQuery";
-export const QueryKey = {
+export const QueryKeys = {
   VerifyEmail: "verify-email",
+  OTP: "otp",
 };

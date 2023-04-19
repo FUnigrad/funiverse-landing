@@ -12,7 +12,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthContext } from "contexts";
-import { QueryKey, useVerifyEmailMutation } from "queries";
+import { QueryKeys, useVerifyEmailMutation } from "queries";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { VerifyEmailBody, VerifyEmailResponse } from "@types";
 import LoadingButton from "@mui/lab/LoadingButton";
