@@ -38,7 +38,7 @@ function ResetPasswordPage() {
       await authApis.getOTPInEmail(data);
       router.push(`/recover/code?e=${data.email}`);
     } catch (error) {
-      console.log("🚀 ~ error:", error);
+      // console.log("🚀 ~ error:", error);
       if (error instanceof Error)
         setError("email", { type: "custom", message: error.message });
       else setError("email", { type: "custom", message: error as string });

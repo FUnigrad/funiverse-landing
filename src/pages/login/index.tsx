@@ -64,7 +64,7 @@ function LoginPage() {
   const { mutate: loginMutate, error, isLoading } = useLoginMutation();
 
   function onSubmit(data: LoginFormInputs) {
-    console.log("🚀 ~ data:", data);
+    // console.log("🚀 ~ data:", data);
     loginMutate(data);
   }
   return (

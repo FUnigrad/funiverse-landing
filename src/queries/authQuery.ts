@@ -10,7 +10,7 @@ import { authApis } from "apis";
 import { useRouter } from "next/router";
 import { QueryKeys } from "queries";
 import { useCookies } from "react-cookie";
-import { __DEV__ } from "utils";
+import { __DEV__, decodeToken } from "utils";
 export function useVerifyEmailMutation() {
   const router = useRouter();
 
@@ -31,35 +31,40 @@ export function useLoginMutation() {
   const loginMutation = useMutation<LoginResponse, string, LoginBody>({
     mutationFn: (body) => authApis.login(body),
     onSuccess: (response) => {
+      const { accessToken, refreshToken, user, workspaceDomain } = response;
       const now = new Date();
       const expires = new Date(
         now.getFullYear() + 1,
         now.getMonth(),
         now.getDate()
       );
+      const decodedToken = decodeToken(accessToken);
 
-      setCookie(process.env.NEXT_PUBLIC_COOKIE_RT, response.refreshToken, {
+      setCookie(process.env.NEXT_PUBLIC_COOKIE_RT, refreshToken, {
         domain: __DEV__ ? "localhost" : process.env.NEXT_PUBLIC_DOMAIN,
         expires,
       });
-      setCookie(process.env.NEXT_PUBLIC_COOKIE_AT, response.accessToken, {
+      setCookie(process.env.NEXT_PUBLIC_COOKIE_AT, accessToken, {
         domain: __DEV__ ? "localhost" : process.env.NEXT_PUBLIC_DOMAIN,
         expires,
       });
+
       if (__DEV__) {
         window.location.href = "http://localhost:3000/";
         return;
       }
       let redirectURL = null;
-      switch (response.user.role) {
+      switch (user.role) {
         case UserRoles.SystemAdmin:
           redirectURL = process.env.NEXT_PUBLIC_FU_SA_URL;
           break;
         case UserRoles.WorkspaceAdmin:
-          redirectURL = `http://admin.${response.workspaceDomain}`;
+          if (decodedToken.wstatus === true)
+            redirectURL = `http://admin.${workspaceDomain}/onboard`;
+          else redirectURL = `http://admin.${workspaceDomain}`;
           break;
         default:
-          redirectURL = `http://${response.workspaceDomain}`;
+          redirectURL = `http://${workspaceDomain}`;
           break;
       }
       window.location.href = redirectURL;

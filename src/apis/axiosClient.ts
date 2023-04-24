@@ -29,7 +29,7 @@ axiosClient.interceptors.response.use(
     return response?.data;
   },
   (error: AxiosError<{ message?: string }>) => {
-    console.log("🚀 ~ error:", error);
+    // console.log("🚀 ~ error:", error);
     const errorMsg = error.response?.data?.message ?? error.message;
     return Promise.reject(errorMsg);
   }
