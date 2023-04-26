@@ -38,7 +38,7 @@ export function useLoginMutation() {
         now.getMonth(),
         now.getDate()
       );
-      const decodedToken = decodeToken(accessToken);
+      const { wstatus } = decodeToken(accessToken);
 
       setCookie(process.env.NEXT_PUBLIC_COOKIE_RT, refreshToken, {
         domain: __DEV__ ? "localhost" : process.env.NEXT_PUBLIC_DOMAIN,
@@ -49,23 +49,30 @@ export function useLoginMutation() {
         expires,
       });
 
-      if (__DEV__) {
-        window.location.href = "http://localhost:3000/";
-        return;
-      }
       let redirectURL = null;
       switch (user.role) {
         case UserRoles.SystemAdmin:
           redirectURL = process.env.NEXT_PUBLIC_FU_SA_URL;
           break;
         case UserRoles.WorkspaceAdmin:
-          if (decodedToken.wstatus === true)
-            redirectURL = `http://admin.${workspaceDomain}/onboard`;
-          else redirectURL = `http://admin.${workspaceDomain}`;
+          if (wstatus) redirectURL = `http://admin.${workspaceDomain}`;
+          else redirectURL = `http://admin.${workspaceDomain}/onboard`;
+          setCookie("isWorkspaceActive", wstatus, {
+            domain: __DEV__ ? "localhost" : process.env.NEXT_PUBLIC_DOMAIN,
+            expires,
+          });
           break;
         default:
           redirectURL = `http://${workspaceDomain}`;
           break;
+      }
+      if (__DEV__) {
+        window.location.href =
+          user.role !== UserRoles.WorkspaceAdmin ||
+          (user.role === UserRoles.WorkspaceAdmin && wstatus)
+            ? "http://localhost:3000/"
+            : "http://localhost:3000/onboard";
+        return;
       }
       window.location.href = redirectURL;
     },
