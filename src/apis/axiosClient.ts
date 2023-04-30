@@ -1,5 +1,5 @@
-import axios, { AxiosError } from "axios";
-import qs from "query-string";
+import axios, { AxiosError } from 'axios';
+import qs from 'query-string';
 // declare global {
 //   module 'axios' {
 //     export interface AxiosResponse<T = any> extends Promise<T> {}
@@ -8,12 +8,12 @@ import qs from "query-string";
 // }
 const axiosClient = axios.create({
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
-  baseURL: "http://authen.system.funiverse.world",
+  baseURL: 'https://authen.system.funiverse.world',
   paramsSerializer: { serialize: (params) => qs.stringify(params) },
   proxy: {
-    host: "http://localhost",
+    host: 'http://localhost',
     port: 3001,
   },
 });
@@ -22,7 +22,7 @@ axiosClient.interceptors.request.use(
     // config.headers.Authorization = `Bearer ${token}`;
     return config;
   },
-  (error) => {}
+  (error) => {},
 );
 axiosClient.interceptors.response.use(
   (response) => {
@@ -32,7 +32,7 @@ axiosClient.interceptors.response.use(
     // console.log("🚀 ~ error:", error);
     const errorMsg = error.response?.data?.message ?? error.message;
     return Promise.reject(errorMsg);
-  }
+  },
 );
 
 export default axiosClient;

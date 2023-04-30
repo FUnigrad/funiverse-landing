@@ -1,1 +1,1 @@
-export * from "./useIdentifier";
+export * from './useIdentifier';

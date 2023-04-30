@@ -1,13 +1,13 @@
-import { useRouter } from "next/router";
-import NextLink, { LinkProps } from "next/link";
-import React, { PropsWithChildren, useState, useEffect } from "react";
+import { useRouter } from 'next/router';
+import NextLink, { LinkProps } from 'next/link';
+import React, { PropsWithChildren, useState, useEffect } from 'react';
 
 type ActiveLinkProps = LinkProps & {
   className?: string;
   activeClassName: string;
 };
 
-const HOME_PATH = "/";
+const HOME_PATH = '/';
 
 const ActiveLink = ({
   children,
@@ -23,10 +23,7 @@ const ActiveLink = ({
     if (isReady) {
       // Dynamic route will be matched via props.as
       // Static route will be matched via props.href
-      const linkPathname = new URL(
-        (props.as || props.href) as string,
-        location.href
-      ).pathname;
+      const linkPathname = new URL((props.as || props.href) as string, location.href).pathname;
 
       // Using URL().pathname to get rid of query and hash
       const activePathname = new URL(asPath, location.href).pathname;
@@ -34,8 +31,7 @@ const ActiveLink = ({
       const isActiveSubPathname =
         activePathname.includes(linkPathname) && linkPathname !== HOME_PATH;
 
-      const isActiveHomePathname =
-        linkPathname === HOME_PATH && activePathname === HOME_PATH;
+      const isActiveHomePathname = linkPathname === HOME_PATH && activePathname === HOME_PATH;
       const newClassName =
         isActiveSubPathname || isActiveHomePathname
           ? `${className} ${activeClassName}`.trim()
@@ -45,15 +41,7 @@ const ActiveLink = ({
         setComputedClassName(newClassName);
       }
     }
-  }, [
-    asPath,
-    isReady,
-    props.as,
-    props.href,
-    activeClassName,
-    className,
-    computedClassName,
-  ]);
+  }, [asPath, isReady, props.as, props.href, activeClassName, className, computedClassName]);
 
   return (
     <NextLink className={computedClassName} {...props}>

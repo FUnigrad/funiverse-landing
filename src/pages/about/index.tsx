@@ -1,8 +1,8 @@
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material/styles";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
-import Head from "next/head";
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import Head from 'next/head';
 // import styles from 'assets/styles/AboutPage.module.scss'
 
 export default function AboutPage() {
@@ -23,7 +23,7 @@ export default function AboutPage() {
           marginTop: `${trigger ? 64 : 80}px`,
         }}> */}
       <Box>
-        <Box sx={{ textAlign: "center", overflow: "auto" }}>
+        <Box sx={{ textAlign: 'center', overflow: 'auto' }}>
           <Typography
             variant="h2"
             fontWeight={500}
@@ -50,10 +50,9 @@ export default function AboutPage() {
             color="black"
             fontSize="18px"
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
-            veritatis totam quae suscipit non voluptatibus minima quis
-            laudantium delectus fugiat omnis consequatur harum nesciunt ex
-            dicta, ea ratione dolores aperiam.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam veritatis totam quae
+            suscipit non voluptatibus minima quis laudantium delectus fugiat omnis consequatur harum
+            nesciunt ex dicta, ea ratione dolores aperiam.
           </Typography>
         </Box>
       </Box>

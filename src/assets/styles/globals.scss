@@ -1,4 +1,4 @@
-@use "./reset";
+@use './reset';
 *,
 *::before,
 *::after {
@@ -17,8 +17,8 @@ img {
   transition: all 0.3s linear !important;
   // border-radius: 8px;
 }
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }

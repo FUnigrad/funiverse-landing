@@ -1,12 +1,12 @@
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material/styles";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
-import Head from "next/head";
-import Button from "@mui/material/Button";
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import Head from 'next/head';
+import Button from '@mui/material/Button';
 // import styles from 'assets/styles/Home.module.scss'
-import NextLink from "next/link";
-import { useEffect } from "react";
+import NextLink from 'next/link';
+import { useEffect } from 'react';
 export default function Home() {
   const theme = useTheme();
   const trigger = useScrollTrigger();
@@ -25,7 +25,7 @@ export default function Home() {
           marginTop: `${trigger ? 64 : 80}px`,
         }}> */}
       <Box>
-        <Box sx={{ textAlign: "center", overflow: "auto" }}>
+        <Box sx={{ textAlign: 'center', overflow: 'auto' }}>
           <Typography
             variant="h2"
             fontWeight={500}
@@ -33,7 +33,7 @@ export default function Home() {
             color="black"
             fontSize="40px"
           >
-            Welcome to{" "}
+            Welcome to{' '}
             <Typography
               component="p"
               variant="h1"
@@ -52,9 +52,8 @@ export default function Home() {
             color="black"
             fontSize="18px"
           >
-            The all-in-one business communication platform from Meta that
-            securely combines chat, video, groups and your intranet with the
-            work tools you already use. Think Facebook, but for your company.
+            The all-in-one business communication platform from FUniverse that securely combines
+            chat, groups and your intranet with the work tools you already use.
           </Typography>
           <Button
             sx={{ mt: 2 }}

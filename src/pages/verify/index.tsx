@@ -1,23 +1,23 @@
-import React from "react";
-import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Input from "@mui/material/Input";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import MuiLink from "@mui/material/Link";
-import Button from "@mui/material/Button";
-import { useRouter } from "next/router";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuthContext } from "contexts";
-import { QueryKeys, useVerifyEmailMutation } from "queries";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { VerifyEmailBody, VerifyEmailResponse } from "@types";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { authApis } from "apis";
-import { FcGoogle } from "react-icons/fc";
+import React from 'react';
+import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Input from '@mui/material/Input';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import MuiLink from '@mui/material/Link';
+import Button from '@mui/material/Button';
+import { useRouter } from 'next/router';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useAuthContext } from 'contexts';
+import { QueryKeys, useVerifyEmailMutation } from 'queries';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { VerifyEmailBody, VerifyEmailResponse } from '@types';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { authApis } from 'apis';
+import { FcGoogle } from 'react-icons/fc';
 const VerifySchema = z.object({
   email: z.string().email(),
 });
@@ -34,7 +34,7 @@ function VerifyPage() {
     clearErrors,
     formState: { errors },
   } = useForm<VerifyFormInputs>({
-    mode: "all",
+    mode: 'all',
     resolver: zodResolver(VerifySchema),
   });
   const { mutate: verifyMutate, error, isLoading } = useVerifyEmailMutation();
@@ -44,19 +44,19 @@ function VerifyPage() {
     verifyMutate(body, {
       onSuccess: (response) => {
         setVerifiedEmail(data.email);
-        router.push({ pathname: "/login", query: { identifier: data.email } });
+        router.push({ pathname: '/login', query: { identifier: data.email } });
       },
     });
   }
   return (
     <Box
       sx={{
-        width: "300px",
-        height: "500px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        margin: "auto",
+        width: '300px',
+        height: '500px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: 'auto',
       }}
     >
       <Box>
@@ -65,7 +65,7 @@ function VerifyPage() {
           color="initial"
           fontSize={45}
           fontWeight="100"
-          textAlign={"center"}
+          textAlign={'center'}
         >
           FUniverse
         </Typography>
@@ -76,13 +76,10 @@ function VerifyPage() {
           // autoComplete="off"
           noValidate
           sx={{
-            "& .MuiTextField-root": { m: 1, width: "100%" },
+            '& .MuiTextField-root': { m: 1, width: '100%' },
           }}
         >
-          <InputLabel
-            htmlFor="email"
-            sx={{ color: "black", fontWeight: 600, fontSize: "18px" }}
-          >
+          <InputLabel htmlFor="email" sx={{ color: 'black', fontWeight: 600, fontSize: '18px' }}>
             Enter your email to start using FUniverse
           </InputLabel>
           <TextField
@@ -91,7 +88,7 @@ function VerifyPage() {
             helperText={errors.email?.message || error}
             fullWidth
             autoFocus
-            {...register("email")}
+            {...register('email')}
           />
           {/* <FormHelperText sx={{ color: 'red' }}>{error}</FormHelperText> */}
           <LoadingButton
@@ -113,11 +110,11 @@ function VerifyPage() {
             type="button"
             sx={{
               mt: 2,
-              backgroundColor: "#fff",
-              color: "#000",
+              backgroundColor: '#fff',
+              color: '#000',
               height: 42,
-              "&:hover": {
-                backgroundColor: "rgba(255,255,255, 0.8)",
+              '&:hover': {
+                backgroundColor: 'rgba(255,255,255, 0.8)',
               },
             }}
             LinkComponent={MuiLink}

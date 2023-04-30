@@ -1,15 +1,15 @@
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material/styles";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
-import ActiveLink from "components/ActiveLink";
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import ActiveLink from 'components/ActiveLink';
 const navItems = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Login", href: "/verify" },
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Login', href: '/verify' },
 ];
 
 interface LayoutProps {
@@ -25,12 +25,12 @@ function Layout({ children }: LayoutProps) {
         position="fixed"
         component="nav"
         sx={{
-          backgroundColor: "transparent",
+          backgroundColor: 'transparent',
           color: theme.palette.primary.main,
           height: trigger ? 64 : 80,
         }}
       >
-        <Toolbar sx={{ height: "100%" }}>
+        <Toolbar sx={{ height: '100%' }}>
           {/* <IconButton
         color="inherit"
         aria-label="open drawer"
@@ -47,7 +47,7 @@ function Layout({ children }: LayoutProps) {
             {navItems.map(({ label, href }, index) => (
               // @ts-ignore
               <Button
-                sx={{ borderRadius: "0 !important" }}
+                sx={{ borderRadius: '0 !important' }}
                 LinkComponent={ActiveLink}
                 href={href}
                 key={index}
@@ -61,7 +61,7 @@ function Layout({ children }: LayoutProps) {
           </Box>
         </Toolbar>
       </AppBar>
-      <Box sx={{ height: theme.mixins.toolbar.height, width: "100%" }}></Box>
+      <Box sx={{ height: theme.mixins.toolbar.height, width: '100%' }}></Box>
       {/* <main>{children}</main> */}
       <Box
         component="main"
