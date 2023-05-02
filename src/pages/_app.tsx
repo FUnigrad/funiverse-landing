@@ -6,6 +6,7 @@ import 'assets/styles/globals.scss';
 import { AuthProvider } from 'contexts';
 import { Layout } from 'layout';
 import type { AppProps } from 'next/app';
+import { useEffect } from 'react';
 import { CookiesProvider } from 'react-cookie';
 import { theme } from 'theme';
 
@@ -25,6 +26,14 @@ const queryClient = new QueryClient({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+  // useEffect(() => {
+  //   // removeCookie(process.env.NEXT_PUBLIC_COOKIE_RT);
+  //   // removeCookie(process.env.NEXT_PUBLIC_COOKIE_AT);
+  //   // removeCookie('isWorkspaceActive');
+  //   document.cookie = `${process.env.NEXT_PUBLIC_COOKIE_RT}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=funiverse.world; path=/;`;
+  //   document.cookie = `${process.env.NEXT_PUBLIC_COOKIE_AT}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=funiverse.world; path=/;`;
+  //   document.cookie = `isWorkspaceActive=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=funiverse.world; path=/;`;
+  // }, []);
   return (
     <>
       <style jsx global>{`

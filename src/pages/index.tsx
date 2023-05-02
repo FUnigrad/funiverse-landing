@@ -7,9 +7,11 @@ import Button from '@mui/material/Button';
 // import styles from 'assets/styles/Home.module.scss'
 import NextLink from 'next/link';
 import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 export default function Home() {
   const theme = useTheme();
   const trigger = useScrollTrigger();
+  const [cookies, setCookie, removeCookie] = useCookies();
 
   return (
     <>
