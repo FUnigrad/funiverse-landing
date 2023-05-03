@@ -43,15 +43,15 @@ export function useLoginMutation() {
           redirectURL = process.env.NEXT_PUBLIC_FU_SA_URL;
           break;
         case UserRoles.WorkspaceAdmin:
-          if (wstatus) redirectURL = `https://admin.${workspaceDomain}`;
-          else redirectURL = `https://admin.${workspaceDomain}/onboard`;
+          if (wstatus) redirectURL = `http://admin.${workspaceDomain}`;
+          else redirectURL = `http://admin.${workspaceDomain}/onboard`;
           setCookie('isWorkspaceActive', wstatus, {
             domain: __DEV__ ? 'localhost' : process.env.NEXT_PUBLIC_DOMAIN,
             expires,
           });
           break;
         default:
-          redirectURL = `https://${workspaceDomain}`;
+          redirectURL = `http://${workspaceDomain}`;
           break;
       }
       if (__DEV__) {
